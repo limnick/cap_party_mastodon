@@ -56,6 +56,8 @@ gem 'react-rails'
 gem 'browserify-rails'
 gem 'autoprefixer-rails'
 
+gem 'stripe'
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'

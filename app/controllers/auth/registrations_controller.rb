@@ -6,6 +6,61 @@ class Auth::RegistrationsController < Devise::RegistrationsController
   before_action :check_enabled_registrations, only: [:new, :create]
   before_action :configure_sign_up_params, only: [:create]
 
+  def create
+    build_resource(sign_up_params)
+
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      # Create the customer in Stripe
+      customer = Stripe::Customer.create(
+        email: params[:stripeEmail],
+        card: params[:stripeToken]
+      )
+
+      resource.stripe_id = customer.id
+      resource.save
+
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+
+
+        # Create the charge using the customer data returned by Stripe API
+        charge = Stripe::Charge.create(
+          customer: customer.id,
+          amount: 500, # Amount in cents
+          description: 'capitalism.party account',
+          currency: 'usd'
+        )
+
+        resource.has_paid = true
+        resource.save
+
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+        puts "after response"
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  rescue Stripe::CardError => e
+    flash[:notice] = e.message
+    puts "stripe error", e.message
+    #respond_with resource
+    redirect_to :new_user_registration
+  end
+
+
+  def new
+    super
+  end
+
   protected
 
   def build_resource(hash = nil)

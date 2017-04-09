@@ -35,4 +35,8 @@ RUN BUILD_DEPS=" \
 
 COPY . /mastodon
 
+RUN crontab /mastodon/crontab
+
+CMD bundle exec puma -b tcp://0.0.0.0:3000 -C config/puma.rb
+
 VOLUME /mastodon/public/system /mastodon/public/assets
