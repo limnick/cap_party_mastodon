@@ -1,0 +1,4 @@
+0    *  *  *  *  cd /mastodon && /usr/local/bin/bundle exec rake mastodon:media:clear
+5    *  *  *  *  cd /mastodon && /usr/local/bin/bundle exec rake mastodon:push:clear
+10   *  *  *  *  cd /mastodon && /usr/local/bin/bundle exec rake mastodon:feeds:clear
+*/5  *  *  *  *  cd /mastodon && /usr/local/bin/bundle exec rake mastodon:push:refresh
