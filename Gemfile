@@ -59,6 +59,7 @@ gem 'browserify-rails'
 gem 'autoprefixer-rails'
 
 gem 'stripe'
+gem 'rollbar'
 
 group :development, :test do
   gem 'rspec-rails'
