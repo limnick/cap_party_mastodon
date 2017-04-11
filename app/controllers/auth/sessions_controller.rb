@@ -10,8 +10,15 @@ class Auth::SessionsController < Devise::SessionsController
 
   def create
     super do |resource|
-      remember_me(resource)
-      flash[:notice] = nil
+      if not resource.has_paid?
+        (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+        flash[:alert] = 'Payment Error. Please contact @sharktopus'
+        respond_with resource, location: :user_session
+        return
+      else
+        remember_me(resource)
+        flash[:notice] = nil
+      end
     end
   end
 
