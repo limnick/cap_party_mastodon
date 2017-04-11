@@ -46,7 +46,9 @@ Rollbar.configure do |config|
   # Enable delayed reporting (using Sidekiq)
   # config.use_sidekiq
   # You can supply custom Sidekiq options:
-  config.use_sidekiq 'queue' => 'default'
+  if Rails.env.production?
+    config.use_sidekiq 'queue' => 'default'
+  end
 
   # If you run your staging application instance in production environment then
   # you'll want to override the environment reported by `Rails.env` with an
