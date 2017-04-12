@@ -6,14 +6,15 @@ class Auth::SessionsController < Devise::SessionsController
   layout 'auth'
 
   skip_before_action :require_no_authentication, only: [:create]
+  skip_before_action :check_payment
   prepend_before_action :authenticate_with_two_factor, if: :two_factor_enabled?, only: [:create]
 
   def create
     super do |resource|
       if not resource.has_paid?
-        (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-        flash[:alert] = 'Payment Error. Please contact @sharktopus'
-        respond_with resource, location: :user_session
+        #(Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+        flash[:alert] = 'Payment Error. Please retry. If errors persist contact admin.'
+        respond_with resource, location: settings_payment_path
         return
       else
         remember_me(resource)

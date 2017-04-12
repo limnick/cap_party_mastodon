@@ -56,6 +56,7 @@ en:
     reset_password: Reset password
     set_new_password: Set new password
     checkout_button_submit: "Pay $5 and Register"
+    checkout_button_submit_postreg: "Pay $5 and Activate"
   authorize_follow:
     error: Unfortunately, there was an error looking up the remote account
     follow: Follow

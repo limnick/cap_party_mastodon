@@ -1,0 +1,15 @@
+- content_for :page_title do
+  User Account Payment Status
+
+.payment-status
+- if @current_user.has_paid
+  %h2 PAID
+  %p there's nothing for you to do here.
+- else
+  %h2 NOT PAID
+  %p if you believe you have paid, please contact the admin @ njohnson@limcollective.com
+
+  = simple_form_for @account, url: settings_payment_path, html: { method: :put } do |f|
+    = render 'shared/error_messages', object: @account
+    .actions
+      %script.stripe-button{:src  => 'https://checkout.stripe.com/checkout.js', :data => { :key => Rails.configuration.stripe[:publishable_key], :description => 'account purchase', :amount => '500', :locale => 'auto', :label => t('auth.checkout_button_submit_postreg')}}

@@ -17,6 +17,13 @@ class ApplicationController < ActionController::Base
   before_action :store_current_location, except: :raise_not_found, unless: :devise_controller?
   before_action :set_user_activity
   before_action :check_suspension, if: :user_signed_in?
+  before_action :check_payment, if: :user_signed_in?
+
+  def check_payment
+    if not current_user.has_paid
+      redirect_to settings_payment_path
+    end
+  end
 
   def raise_not_found
     raise ActionController::RoutingError, "No route matches #{params[:unmatched_route]}"
@@ -96,4 +103,5 @@ class ApplicationController < ActionController::Base
 
     raw.map { |item| cached_keys_with_value[item.cache_key] || uncached[item.id] }.compact
   end
+
 end

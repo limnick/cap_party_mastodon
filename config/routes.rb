@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     resource :preferences, only: [:show, :update]
     resource :import, only: [:show, :create]
 
+    resource :payment, only: [:show, :update]
+
     resource :export, only: [:show]
     namespace :exports, constraints: { format: :csv } do
       resources :follows, only: :index, controller: :following_accounts
