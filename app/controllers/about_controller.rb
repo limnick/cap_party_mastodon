@@ -2,11 +2,13 @@
 
 class AboutController < ApplicationController
   before_action :set_body_classes
-  before_action :set_instance_presenter, only: [:show, :more]
+  before_action :set_instance_presenter, only: [:show, :more, :instance_list]
 
   def show; end
 
   def more; end
+
+  def instance_list; end
 
   def terms; end
 

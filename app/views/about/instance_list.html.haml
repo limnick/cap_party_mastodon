@@ -12,20 +12,20 @@
 
       .information-board
         .section
-          %span= t 'about.user_count_before'
-          %strong= number_with_delimiter @instance_presenter.user_count
-          %span= t 'about.user_count_after'
-        .section
-          %span= t 'about.status_count_before'
-          %strong= number_with_delimiter @instance_presenter.status_count
-          %span= t 'about.status_count_after'
-        .section
           %span= t 'about.domain_count_before'
           %strong= number_with_delimiter @instance_presenter.domain_count
           %span= t 'about.domain_count_after'
 
-      - unless @instance_presenter.site_extended_description.blank?
-        .panel= @instance_presenter.site_extended_description.html_safe
+      .panel
+        %h2 instance list
+        %table.table
+          %thead
+            %tr
+              %th Domain
+          %tbody
+            - @instance_presenter.domain_list.each do |domain|
+              %tr
+                %td= link_to domain, domain
 
     .sidebar
       .panel

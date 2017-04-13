@@ -29,6 +29,7 @@ en:
     terms: Terms
     user_count_after: users
     user_count_before: Home to
+    instance_list: Instance List
   accounts:
     follow: Follow
     followers: Followers

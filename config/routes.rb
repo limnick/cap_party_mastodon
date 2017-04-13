@@ -192,6 +192,7 @@ Rails.application.routes.draw do
 
   get '/about',      to: 'about#show'
   get '/about/more', to: 'about#more'
+  get '/about/instance_list', to: 'about#instance_list'
   get '/terms',      to: 'about#terms'
 
   root 'home#index'
