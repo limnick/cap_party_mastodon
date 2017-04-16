@@ -27,4 +27,6 @@
       - unless @instance_presenter.site_extended_description.blank?
         .panel= @instance_presenter.site_extended_description.html_safe
 
-    = render "about/sidebar"
+    .sidebar
+      = render partial: 'contact', object: @instance_presenter
+      = render 'links'
