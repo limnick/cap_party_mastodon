@@ -18,4 +18,6 @@
               %tr
                 %td= link_to domain, "https://#{domain}"
 
-    = render "about/sidebar"
+    .sidebar
+      = render partial: 'contact', object: @instance_presenter
+      = render 'links'
