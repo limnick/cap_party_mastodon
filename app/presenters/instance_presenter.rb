@@ -15,7 +15,7 @@ class InstancePresenter
   end
 
   def user_count
-    Rails.cache.fetch('user_count') { User.count }
+    Rails.cache.fetch('user_count') { User.confirmed.count }
   end
 
   def status_count
@@ -28,5 +28,9 @@ class InstancePresenter
 
   def domain_list
     Rails.cache.fetch('distinct_domains_list', expires_in: 5.minutes) { Account.select(:domain).uniq.map(&:domain).reject(&:blank?) }
+  end
+
+  def version_number
+    Mastodon::Version
   end
 end
