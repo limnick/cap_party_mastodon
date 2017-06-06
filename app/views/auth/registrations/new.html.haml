@@ -8,8 +8,8 @@
     = ff.input :username, autofocus: true, placeholder: t('simple_form.labels.defaults.username'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.username') }
 
   = f.input :email, placeholder: t('simple_form.labels.defaults.email'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.email') }
-  = f.input :password, autocomplete: "off", placeholder: t('simple_form.labels.defaults.password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.password') }
-  = f.input :password_confirmation, autocomplete: "off", placeholder: t('simple_form.labels.defaults.confirm_password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.confirm_password') }
+  = f.input :password, autocomplete: 'off', placeholder: t('simple_form.labels.defaults.password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.password') }
+  = f.input :password_confirmation, autocomplete: 'off', placeholder: t('simple_form.labels.defaults.confirm_password'), required: true, input_html: { 'aria-label' => t('simple_form.labels.defaults.confirm_password') }
 
   .actions
     -#= f.button :button, t('auth.register'), type: :submit
@@ -18,4 +18,4 @@
   .info
     NOTE: card is not actually charged unless account creation is successful, if you have an error, just confirm your email address and then log in to be taken back to the payment form.
 
-.form-footer= render "auth/shared/links"
+.form-footer= render 'auth/shared/links'

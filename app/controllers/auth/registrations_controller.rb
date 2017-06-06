@@ -60,6 +60,10 @@ class Auth::RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def destroy
+    not_found
+  end
+
   protected
 
   def build_resource(hash = nil)
