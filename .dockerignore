@@ -1,7 +1,8 @@
 .env
 .env.*
 public/system
-#public/assets
+public/assets
+public/packs
 node_modules
 storybook
 neo4j
