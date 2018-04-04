@@ -8,7 +8,9 @@ RUN apk add --update \
     py-pip \
     py-cffi \
     py-cryptography \
-  && pip install --upgrade pip \
+    ca-certificates \
+  && update-ca-certificates \
+  && pip install -U --trusted-host pypi.python.org pip \
   && apk add --virtual build-deps \
     gcc \
     libffi-dev \
@@ -16,7 +18,7 @@ RUN apk add --update \
     linux-headers \
     musl-dev \
     openssl-dev \
-  && pip install gsutil \
+  && pip install -U --trusted-host pypi.python.org gsutil pyasn1 \
   && apk del build-deps \
   && rm -rf /var/cache/apk/*
 

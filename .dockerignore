@@ -1,8 +1,8 @@
 .env
 .env.*
 public/system
-public/assets
-public/packs
+#public/assets
+#public/packs
 node_modules
 neo4j
 vendor/bundle
