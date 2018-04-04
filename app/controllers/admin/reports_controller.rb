@@ -5,30 +5,56 @@ module Admin
     before_action :set_report, except: [:index]
 
     def index
+      authorize :report, :index?
       @reports = filtered_reports.page(params[:page])
     end
 
     def show
+      authorize @report, :show?
+      @report_note = @report.notes.new
+      @report_notes = @report.notes.latest
       @form = Form::StatusBatch.new
     end
 
     def update
+      authorize @report, :update?
       process_report
-      redirect_to admin_report_path(@report)
+
+      if @report.action_taken?
+        redirect_to admin_reports_path, notice: I18n.t('admin.reports.resolved_msg')
+      else
+        redirect_to admin_report_path(@report)
+      end
     end
 
     private
 
     def process_report
       case params[:outcome].to_s
+      when 'assign_to_self'
+        @report.update!(assigned_account_id: current_account.id)
+        log_action :assigned_to_self, @report
+      when 'unassign'
+        @report.update!(assigned_account_id: nil)
+        log_action :unassigned, @report
+      when 'reopen'
+        @report.update!(action_taken: false, action_taken_by_account_id: nil)
+        log_action :reopen, @report
       when 'resolve'
-        @report.update(action_taken_by_current_attributes)
+        @report.update!(action_taken_by_current_attributes)
+        log_action :resolve, @report
       when 'suspend'
         Admin::SuspensionWorker.perform_async(@report.target_account.id)
+        log_action :resolve, @report
+        log_action :suspend, @report.target_account
         resolve_all_target_account_reports
+        @report.reload
       when 'silence'
-        @report.target_account.update(silenced: true)
+        @report.target_account.update!(silenced: true)
+        log_action :resolve, @report
+        log_action :silence, @report.target_account
         resolve_all_target_account_reports
+        @report.reload
       else
         raise ActiveRecord::RecordNotFound
       end
