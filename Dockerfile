@@ -74,6 +74,7 @@ RUN addgroup -g ${GID} mastodon && adduser -h /mastodon -s /bin/sh -D -G mastodo
  && mkdir -p /mastodon/public/system /mastodon/public/assets /mastodon/public/packs \
  && chown -R mastodon:mastodon /mastodon/public
 
+COPY crontab /mastodon/crontab
 RUN crontab /mastodon/crontab
 
 
